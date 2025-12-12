@@ -93,14 +93,19 @@ helpers do
     to_email = ENV["CONTACT_RECIPIENT"]
     from_email = ENV["CONTACT_FROM"] || ENV["EMAIL_USER"] || "no-reply@meetandgreet.events"
     body_text = contact_body(submission)
+    port = (ENV["EMAIL_PORT"] || "587").to_i
+    use_ssl = port == 465
     opts = {
       address: ENV["EMAIL_SMTP_SERVER"],
-      port: (ENV["EMAIL_PORT"] || "587").to_i,
+      port: port,
       domain: ENV["EMAIL_DOMAIN"] || "localhost",
       user_name: ENV["EMAIL_USER"],
       password: ENV["EMAIL_PASSWORD"],
       authentication: :login,
-      enable_starttls_auto: true
+      enable_starttls_auto: !use_ssl,
+      ssl: use_ssl,
+      open_timeout: 20,
+      read_timeout: 20
     }
 
     mail = Mail.new do
