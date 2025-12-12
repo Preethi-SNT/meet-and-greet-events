@@ -92,6 +92,7 @@ helpers do
   def send_via_smtp(submission)
     to_email = ENV["CONTACT_RECIPIENT"]
     from_email = ENV["CONTACT_FROM"] || ENV["EMAIL_USER"] || "no-reply@meetandgreet.events"
+    body_text = contact_body(submission)
     opts = {
       address: ENV["EMAIL_SMTP_SERVER"],
       port: (ENV["EMAIL_PORT"] || "587").to_i,
@@ -106,7 +107,7 @@ helpers do
       from    from_email
       to      to_email
       subject "New inquiry from #{submission[:name]} (#{submission[:event_type] || 'Event inquiry'})"
-      body    contact_body(submission)
+      body    body_text
     end
 
     begin
