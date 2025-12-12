@@ -1,0 +1,18 @@
+# Node and build artifacts
+node_modules/
+dist/
+
+# Frontend app
+frontend/node_modules/
+frontend/dist/
+frontend/.vercel/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
