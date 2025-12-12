@@ -2,10 +2,27 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.3.0)
+    date (3.5.1)
     logger (1.7.0)
+    mail (2.9.0)
+      logger
+      mini_mime (>= 0.1.1)
+      net-imap
+      net-pop
+      net-smtp
+    mini_mime (1.1.5)
     multi_json (1.18.0)
     mustermann (3.0.4)
       ruby2_keywords (~> 0.0.1)
+    net-imap (0.5.12)
+      date
+      net-protocol
+    net-pop (0.1.2)
+      net-protocol
+    net-protocol (0.2.2)
+      timeout
+    net-smtp (0.5.1)
+      net-protocol
     rack (3.2.4)
     rack-cors (3.0.0)
       logger
@@ -18,6 +35,9 @@ GEM
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
     ruby2_keywords (0.0.5)
+    ruby_http_client (3.5.5)
+    sendgrid-ruby (6.7.0)
+      ruby_http_client (~> 3.4)
     sinatra (4.2.1)
       logger (>= 1.6.0)
       mustermann (~> 3.0)
@@ -32,13 +52,16 @@ GEM
       sinatra (= 4.2.1)
       tilt (~> 2.0)
     tilt (2.6.1)
+    timeout (0.5.0)
 
 PLATFORMS
   ruby
   x86_64-linux
 
 DEPENDENCIES
+  mail
   rack-cors
+  sendgrid-ruby
   sinatra
   sinatra-contrib
 
