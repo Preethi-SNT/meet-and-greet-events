@@ -23,6 +23,9 @@ GEM
       timeout
     net-smtp (0.5.1)
       net-protocol
+    nio4r (2.7.5)
+    puma (7.1.0)
+      nio4r (~> 2.0)
     rack (3.2.4)
     rack-cors (3.0.0)
       logger
@@ -34,6 +37,8 @@ GEM
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
+    rackup (2.3.1)
+      rack (>= 3)
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
     sendgrid-ruby (6.7.0)
@@ -60,7 +65,9 @@ PLATFORMS
 
 DEPENDENCIES
   mail
+  puma
   rack-cors
+  rackup
   sendgrid-ruby
   sinatra
   sinatra-contrib
