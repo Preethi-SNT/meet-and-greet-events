@@ -50,7 +50,7 @@ helpers do
     end
   end
 
-  def build_body(submission)
+  def contact_body(submission)
     [
       "Name: #{submission[:name]}",
       "Email: #{submission[:email]}",
@@ -77,7 +77,7 @@ helpers do
         p.add_to(SendGrid::Email.new(email: to_email))
       end
     )
-    mail.add_content(SendGrid::Content.new(type: "text/plain", value: build_body(submission)))
+    mail.add_content(SendGrid::Content.new(type: "text/plain", value: contact_body(submission)))
 
     begin
       sg = SendGrid::API.new(api_key: api_key)
@@ -106,7 +106,7 @@ helpers do
       from    from_email
       to      to_email
       subject "New inquiry from #{submission[:name]} (#{submission[:event_type] || 'Event inquiry'})"
-      body    build_body(submission)
+      body    contact_body(submission)
     end
 
     begin
