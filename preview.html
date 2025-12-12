@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Meet&Greet Events Planner – Preview</title>
+    <style>
+      :root {
+        --color-bg: #fdf9ff;
+        --color-surface: #ffffff;
+        --color-primary: #f4b8c6;
+        --color-primary-dark: #e59baf;
+        --color-accent: #fbe0c3;
+        --color-highlight: #f7e6a7;
+        --color-text: #27303f;
+        --color-muted: #6b7280;
+        --color-footer-bg: #1f2933;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        color: var(--color-text);
+        background: var(--color-bg);
+        scroll-behavior: smooth;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Navbar */
+
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: linear-gradient(90deg, #fce1ef, #fbe0c3);
+        color: #4b1c3b;
+        backdrop-filter: blur(8px);
+      }
+
+      .navbar-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0.6rem 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .navbar-logo {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .navbar-logo-main {
+        font-weight: 900;
+        font-size: 1.15rem;
+        font-family: "Arial Black", "Lucida Sans Unicode", "Lucida Grande",
+          "Lucida Sans", Arial, sans-serif;
+        letter-spacing: 0.03em;
+      }
+
+      .navbar-links {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        font-size: 0.9rem;
+      }
+
+      .nav-link {
+        padding: 0.35rem 0.9rem;
+        border-radius: 999px;
+        transition: background 0.15s ease;
+      }
+
+      .nav-link:hover {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .nav-link-cta {
+        border: 1px solid rgba(75, 28, 59, 0.2);
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      /* Page layout */
+
+      .page {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 2rem 1.25rem 3rem;
+      }
+
+      .section {
+        margin-bottom: 2.5rem;
+      }
+
+      .section h1,
+      .section h2 {
+        margin-bottom: 0.75rem;
+      }
+
+      .section p {
+        max-width: 60rem;
+        line-height: 1.6;
+      }
+
+      /* Hero */
+
+      #home {
+        position: relative;
+        min-height: 60vh;
+        margin: 0 -1.25rem 2.5rem;
+        padding: 4rem 1.25rem;
+        /* Replace hero-event.jpg with an image exported from your PDF */
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.85),
+            rgba(253, 242, 248, 0.95)
+          ),
+          url("images/hero-event.jpg");
+        background-size: cover;
+        background-position: center;
+        color: #4b1c3b;
+        display: flex;
+        align-items: center;
+      }
+
+      .hero-content {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .hero-kicker {
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.72rem;
+        margin-bottom: 0.6rem;
+        color: var(--color-muted);
+      }
+
+      .hero h1 {
+        font-size: 2.1rem;
+        line-height: 1.2;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.96rem;
+        line-height: 1.7;
+        margin-bottom: 0.8rem;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.6rem 1.2rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: var(--color-primary);
+        color: #4b1c3b;
+        border-color: var(--color-primary-dark);
+      }
+
+      .btn-primary:hover {
+        background: var(--color-primary-dark);
+      }
+
+      .btn-outline {
+        background: transparent;
+        color: #4b1c3b;
+        border-color: rgba(75, 28, 59, 0.3);
+      }
+
+      .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      /* Two-column intro */
+
+      .section-two-column {
+        display: grid;
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+        gap: 1.5rem;
+      }
+
+      .section-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+
+      .info-card {
+        background: var(--color-surface);
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.04);
+      }
+
+      /* Highlight section */
+
+      .section-highlight {
+        background: linear-gradient(135deg, #fce1ef, #f7f3ff);
+        border-radius: 1.25rem;
+        padding: 1.5rem 1.25rem;
+      }
+
+      .highlight-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      /* Services */
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.25rem;
+        margin-top: 1.25rem;
+      }
+
+      .service-card {
+        background: var(--color-surface);
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .service-card h3 {
+        margin-top: 0;
+        margin-bottom: 0.35rem;
+      }
+
+      .service-tag {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--color-muted);
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+
+      /* Gallery */
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+        margin-top: 1.25rem;
+      }
+
+      .gallery-card {
+        background: var(--color-surface);
+        border-radius: 1rem;
+        overflow: hidden;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .gallery-image-wrapper {
+        width: 100%;
+        height: 180px;
+        overflow: hidden;
+      }
+
+      .gallery-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .gallery-info {
+        padding: 0.75rem 0.9rem 1rem;
+      }
+
+      .gallery-info p {
+        margin: 0.25rem 0 0;
+        font-size: 0.85rem;
+        color: var(--color-muted);
+      }
+
+      /* Contact */
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.8fr);
+        gap: 1.5rem;
+      }
+
+      .contact-card {
+        background: var(--color-surface);
+        border-radius: 1rem;
+        padding: 1rem;
+        box-shadow: 0 8px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .contact-form {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+        gap: 0.75rem;
+      }
+
+      label {
+        font-size: 0.85rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      input,
+      textarea {
+        border-radius: 0.6rem;
+        border: 1px solid #cbd5e1;
+        padding: 0.45rem 0.6rem;
+        font-size: 0.9rem;
+        font-family: inherit;
+      }
+
+      input:focus,
+      textarea:focus {
+        outline: 2px solid #7c2d84;
+        outline-offset: 1px;
+      }
+
+      /* Footer */
+
+      .footer {
+        background: var(--color-footer-bg);
+        color: #e5e7eb;
+        padding: 1.5rem 1.25rem 1rem;
+        margin-top: 2rem;
+      }
+
+      .footer-inner {
+        max-width: 1120px;
+        margin: 0 auto 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
+      }
+
+      .footer-bottom {
+        max-width: 1120px;
+        margin: 0 auto;
+        font-size: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        opacity: 0.9;
+      }
+
+      .footer-tagline {
+        font-style: italic;
+      }
+
+      @media (max-width: 768px) {
+        .navbar-inner {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.75rem;
+        }
+        #home {
+          margin: 0;
+        }
+        .section-two-column,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-bottom {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="navbar-inner">
+        <div class="navbar-logo">
+          <span class="navbar-logo-main">Meet&Greet Events Planner</span>
+        </div>
+        <nav class="navbar-links">
+          <a href="#home" class="nav-link">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#gallery" class="nav-link">Gallery</a>
+          <a href="#contact" class="nav-link nav-link-cta">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <!-- HERO / HOME -->
+      <section id="home">
+        <div class="hero-content hero">
+          <div>
+            <p class="hero-kicker">Events. Stories. Memories.</p>
+            <h1>Every celebration tells a unique story.</h1>
+            <p class="hero-subtitle">
+              At Meet &amp; Greet, we believe every event tells a unique story. Our
+              team specialises in transforming your dreams into cherished memories—
+              crafting celebrations that reflect each family and every occasion.
+            </p>
+            <p class="hero-subtitle">
+              Whether you imagine a grand ballroom wedding, a vibrant sangeet, an
+              elegant reception, a joyful mehndi or haldi, a cradle ceremony, a
+              milestone birthday, or an intimate engagement, our expert planners
+              handle every detail so you can simply enjoy the moment.
+            </p>
+            <p class="hero-subtitle">
+              From elegant décor and personalised themes to seamless logistics and
+              heartfelt moments, our portfolio showcases a wide range of magical
+              events. Each picture below captures the care and creativity we bring
+              to turning your celebrations into lasting memories.
+            </p>
+            <div class="hero-actions">
+              <a href="#contact" class="btn btn-primary">Plan Your Event</a>
+              <a href="#services" class="btn btn-outline">View Services</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section section-two-column">
+        <div>
+          <h2>About Meet&Greet Events Planner</h2>
+          <p>
+            We create curated, full-service event experiences for life’s most
+            important milestones. From concept to completion, we combine
+            thoughtful planning, tasteful design, and warm hospitality.
+          </p>
+          <p>
+            Our approach is simple: listen closely, understand your vision, and
+            then quietly take care of everything behind the scenes, so that you
+            and your guests can relax and enjoy each celebration.
+          </p>
+        </div>
+        <div class="section-card-grid">
+          <div class="info-card">
+            <h3>End-to-end planning</h3>
+            <p>
+              Venue sourcing, décor, timelines, vendor management, checklists,
+              and on-the-day coordination—all managed for you.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3>Design &amp; décor</h3>
+            <p>
+              From floral concepts and stage design to lighting and table
+              styling, we craft atmospheres that feel elegant and inviting.
+            </p>
+          </div>
+          <div class="info-card">
+            <h3>Photography &amp; videography</h3>
+            <p>
+              Professional coverage so your weddings, rituals, and family events
+              are preserved beautifully for years to come.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SERVICES -->
+      <section id="services" class="section">
+        <h2>Services</h2>
+        <p>
+          Our services span a wide range of life events—each planned with the
+          same care, creativity, and attention to detail.
+        </p>
+        <div class="services-grid">
+          <article class="service-card">
+            <span class="service-tag">Weddings</span>
+            <h3>Weddings</h3>
+            <p>
+              Custom-designed weddings that reflect each couple’s personality
+              and vision—from intimate garden affairs to grand ballroom galas.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Pre-wedding</span>
+            <h3>Sangeet</h3>
+            <p>
+              High-energy sangeet evenings with choreography, engaging anchors,
+              music, and entertainment that bring both sides of the family
+              together.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Pre-wedding</span>
+            <h3>Mehndi</h3>
+            <p>
+              Colourful mehndi ceremonies with décor, professional mehndi
+              artists, music, and hospitality for a relaxed, joyful gathering.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Pre-wedding</span>
+            <h3>Haldi</h3>
+            <p>
+              Vibrant haldi functions with creative concepts, floral touches,
+              and lively ambience, designed for laughter and fun.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Wedding</span>
+            <h3>Receptions</h3>
+            <p>
+              Elegant receptions that let guests mingle, celebrate, and enjoy
+              curated food, music, and atmosphere.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Family</span>
+            <h3>Cradle Ceremonies</h3>
+            <p>
+              Graceful celebrations welcoming a new baby, blending tradition
+              with soft, thoughtful décor and family-focused details.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Milestones</span>
+            <h3>Birthdays</h3>
+            <p>
+              Memorable birthday celebrations—from intimate family dinners to
+              themed parties—designed around the person you’re celebrating.
+            </p>
+          </article>
+          <article class="service-card">
+            <span class="service-tag">Milestones</span>
+            <h3>Engagements</h3>
+            <p>
+              Engagement ceremonies that mark the beginning of a beautiful
+              journey, with tasteful décor and curated experiences.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section id="gallery" class="section">
+        <h2>Event Moments Gallery</h2>
+        <p>
+          A glimpse into the range of events we plan. Replace these image
+          placeholders with photos exported from your own event portfolio PDF.
+        </p>
+        <div class="gallery-grid">
+          <div class="gallery-card">
+            <div class="gallery-image-wrapper">
+              <img
+                class="gallery-image"
+                src="images/wedding-1.jpg"
+                alt="Wedding décor from your portfolio"
+              />
+            </div>
+            <div class="gallery-info">
+              <h3>Wedding décor</h3>
+              <p>From your wedding designs pages</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-image-wrapper">
+              <img
+                class="gallery-image"
+                src="images/sangeet-1.jpg"
+                alt="Sangeet celebration from your portfolio"
+              />
+            </div>
+            <div class="gallery-info">
+              <h3>Sangeet evening</h3>
+              <p>Energy, music, and performances</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-image-wrapper">
+              <img
+                class="gallery-image"
+                src="images/haldi-1.jpg"
+                alt="Haldi décor from your portfolio"
+              />
+            </div>
+            <div class="gallery-info">
+              <h3>Haldi ceremony</h3>
+              <p>Bright, joyful, and vibrant</p>
+            </div>
+          </div>
+          <div class="gallery-card">
+            <div class="gallery-image-wrapper">
+              <img
+                class="gallery-image"
+                src="images/birthday-1.jpg"
+                alt="Birthday celebration from your portfolio"
+              />
+            </div>
+            <div class="gallery-info">
+              <h3>Birthday celebration</h3>
+              <p>Personal, warm, and festive</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section">
+        <h2>Contact</h2>
+        <div class="contact-grid">
+          <div>
+            <p>
+              Share a few details about your upcoming event, and we’ll get in
+              touch with concepts and options tailored to you.
+            </p>
+            <div class="info-card contact-card">
+              <p><strong>Phone / WhatsApp:</strong> +91 9908934999</p>
+              <p><strong>Contact person:</strong> Aparanjitha Kothinti</p>
+              <p>
+                For weddings, pre-wedding events, cradle ceremonies, birthdays,
+                engagements and more.
+              </p>
+            </div>
+          </div>
+          <div class="contact-card">
+            <form class="contact-form">
+              <div class="form-row">
+                <label>
+                  Name
+                  <input type="text" placeholder="Your name" />
+                </label>
+                <label>
+                  Email
+                  <input type="email" placeholder="you@example.com" />
+                </label>
+              </div>
+              <div class="form-row">
+                <label>
+                  Phone
+                  <input type="tel" placeholder="+91 …" />
+                </label>
+                <label>
+                  Event type
+                  <input
+                    type="text"
+                    placeholder="Wedding, Sangeet, Birthday..."
+                  />
+                </label>
+              </div>
+              <label>
+                Message
+                <textarea
+                  rows="3"
+                  placeholder="Tell us about dates, venue ideas, and any special preferences..."
+                ></textarea>
+              </label>
+              <button type="button" class="btn btn-primary">
+                Submit (preview only)
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>
+          <h4>Meet&Greet Events Planner</h4>
+          <p>Curating memorable celebrations for your most special moments.</p>
+        </div>
+        <div>
+          <p>Phone / WhatsApp: +91 9908934999</p>
+          <p>Reach out to begin planning your next celebration.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span
+          >© <span id="year"></span> Meet&Greet Events Planner. All rights
+          reserved.</span
+        >
+        <span class="footer-tagline">Weddings. Rituals. Milestones. Memories.</span>
+      </div>
+      <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </body>
+</html>
