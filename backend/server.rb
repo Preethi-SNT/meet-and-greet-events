@@ -27,6 +27,17 @@ before do
 end
 
 helpers do
+  def parsed_body_params
+    return {} unless request.body
+    return {} unless request.media_type&.include?("json")
+
+    body = request.body.read
+    return {} if body.to_s.strip.empty?
+    JSON.parse(body)
+  rescue JSON::ParserError
+    {}
+  end
+
   def send_email(submission)
     # Prefer SendGrid if configured
     if ENV["SENDGRID_API_KEY"] && ENV["CONTACT_RECIPIENT"]
@@ -118,7 +129,9 @@ get "/" do
 end
 
 post "/api/contact" do
-  payload = params.transform_keys(&:to_s)
+  raw_params = params.transform_keys(&:to_s)
+  json_params = parsed_body_params.transform_keys(&:to_s)
+  payload = raw_params.merge(json_params)
   required = %w[name email message]
   missing = required.select { |k| (payload[k] || "").strip.empty? }
   halt 422, json(error: "Missing fields: #{missing.join(', ')}") unless missing.empty?
