@@ -17,7 +17,7 @@ use Rack::Cors do
 end
 
 set :bind, "0.0.0.0"
-set :port, 4567
+set :port, ENV.fetch("PORT", 4567)
 set :protection, except: :http_origin
 
 SUBMISSIONS = []
@@ -110,6 +110,11 @@ end
 
 get "/api/health" do
   json ok: true, service: "meet-and-greet-events"
+end
+
+get "/" do
+  content_type :text
+  "OK"
 end
 
 post "/api/contact" do
